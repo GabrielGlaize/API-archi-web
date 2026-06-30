@@ -1,0 +1,1 @@
+define('JWT_SECRET', 'tickets-esgi-2026-secret');

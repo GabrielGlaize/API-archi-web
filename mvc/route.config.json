@@ -1,0 +1,27 @@
+[
+    {
+        "path":"/tickets",
+        "method":"GET",
+        "controller":"ticket",
+        "action":"getAll"
+    },
+    {
+        "path":"/tickets/([0-9]+)",
+        "method":"GET",
+        "controller":"ticket",
+        "action":"getById"
+    },
+    {
+        "path":"/tickets",
+        "method":"POST",
+        "controller":"ticket",
+        "action":"create",
+        "auth":true
+    },
+    {
+        "path":"/tickets/([0-9]+)/status",
+        "method":"PUT",
+        "controller":"ticket",
+        "action":"update"
+    }
+]
