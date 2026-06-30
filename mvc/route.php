@@ -32,7 +32,7 @@ if (!empty($currentRoute->auth) && $currentRoute->auth == true) { // route néce
     // // $authorization[0] = "Bearer", $authorization[1] = le token réel
     try {
         // Vérifie signature + expiration avec la même clé que login()
-        JWT::decode($authorization[1], "JWT_SECRET", array("HS256"));
+        JWT::decode($authorization[1], JWT_SECRET, array("HS256"));
         // Si valide le code continue vers le controller
     } catch (Exception $e) {
         // Token invalide ou expiré → erreur lors de decode()
