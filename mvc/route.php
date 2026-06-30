@@ -1,5 +1,6 @@
 <?php
 include('./JWT/JWT.php');
+include('./config.php');  
 
 $json = file_get_contents('route.config.json');
 $routes = json_decode($json);
