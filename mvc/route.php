@@ -18,22 +18,27 @@ if (count($result) == 0 || count($result) > 1) {
 
 $currentRoute = array_shift($result);
 
-
+// middleware
 // Vérification de l'authentification
-if (!empty($currentRoute->auth) && $currentRoute->auth == true) {
+if (!empty($currentRoute->auth) && $currentRoute->auth == true) { // route nécessite un token ("auth": true dans route.config.json)
     $headers = apache_request_headers();
-    var_dump($headers);
     if (!isset($headers['Authorization'])) {
+        // Si pas de header Authorization envoyé → client pas connecté du tout
         $error = "User must be login for this action";
         include('./view/error.json.php');
         exit;
     }
     $authorization = explode(" ", $headers['Authorization']);
+    // $authorization[0] = "Bearer", $authorization[1] = le token réel
     try {
+        // Vérifie signature + expiration avec la même clé que login()
         JWT::decode($authorization[1], JWT_SECRET, array("HS256"));
+        // Si valide le code continue vers le controller
     } catch (Exception $e) {
+        // Token invalide ou expiré → erreur lors de decode()
         $error = $e->getMessage();
         include('./view/error.json.php');
+        exit;
     }
 }
 
