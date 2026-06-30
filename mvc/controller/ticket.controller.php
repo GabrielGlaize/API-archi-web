@@ -1,5 +1,5 @@
 <?php
-include_once('./model/ticket.model.php');
+include_once('./model/ticketModel.php');
 
 class TicketController {
     function getAll(){

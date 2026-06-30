@@ -1,4 +1,4 @@
 <?php
     function getConnexion(){
-        return new PDO('mysql:dbname=esgi1-archi;host=localhost', 'root', '');
+        return new PDO('mysql:dbname=API-tickets;host=localhost;port=8889', 'root', 'root');
     }

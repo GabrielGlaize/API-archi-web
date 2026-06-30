@@ -1,9 +1,10 @@
 <?php
-include('./JWT/JWT.php');
+include_once('./config.php');
+include_once('./JWT/JWT.php');
 $json = file_get_contents('route.config.json');
 $routes = json_decode($json);
 
-$resource = $_SERVER['REQUEST_URI'];
+$resource = str_replace('/tickets-api', '', $_SERVER['REQUEST_URI']);
 $method = $_SERVER['REQUEST_METHOD'];
 
 // réception des routes
@@ -21,14 +22,15 @@ $currentRoute = array_shift($result);
 // Vérification de l'authentification
 if (!empty($currentRoute->auth) && $currentRoute->auth == true) {
     $headers = apache_request_headers();
-    if (!isset($headers['authorization'])) {
+    var_dump($headers);
+    if (!isset($headers['Authorization'])) {
         $error = "User must be login for this action";
         include('./view/error.json.php');
         exit;
     }
-    $authorization = explode(" ", $headers['authorization']);
+    $authorization = explode(" ", $headers['Authorization']);
     try {
-        JWT::decode($authorization[1], "", array("HS256"));
+        JWT::decode($authorization[1], JWT_SECRET, array("HS256"));
     } catch (Exception $e) {
         $error = $e->getMessage();
         include('./view/error.json.php');
