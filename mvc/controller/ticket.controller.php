@@ -4,7 +4,7 @@ include_once('./model/ticketModel.php');
 class TicketController {
     function getAll(){
         $tickets = TicketModel::getAll();
-        include('./view/ticketList.json.php');
+        include('./view/ticketsList.json.php');
     }
 
     function getById($id){

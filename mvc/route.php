@@ -21,14 +21,15 @@ $currentRoute = array_shift($result);
 // middleware
 // Vérification de l'authentification
 if (!empty($currentRoute->auth) && $currentRoute->auth == true) { // route nécessite un token ("auth": true dans route.config.json)
-    $headers = apache_request_headers();
-    if (!isset($headers['Authorization'])) {
+    $headers = array_change_key_case(apache_request_headers(), CASE_LOWER);
+    $authHeader = isset($headers['authorization']) ? $headers['authorization'] : (isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : null));
+    if (empty($authHeader)) {
         // Si pas de header Authorization envoyé → client pas connecté du tout
         $error = "User must be login for this action";
         include('./view/error.json.php');
         exit;
     }
-    $authorization = explode(" ", $headers['Authorization']);
+    $authorization = explode(" ", $authHeader);
     // $authorization[0] = "Bearer", $authorization[1] = le token réel
     try {
         // Vérifie signature + expiration avec la même clé que login()

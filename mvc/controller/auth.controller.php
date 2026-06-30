@@ -4,7 +4,7 @@
 // ce fichier vérifie que c'est correct, 
 // puis appelle JWT::encode() pour fabriquer un token et le renvoyer.
 
-    include_once('./model/user.model.php');
+    include_once('./model/userModel.php');
     include_once('./JWT/JWT.php');
 
     class AuthController {
